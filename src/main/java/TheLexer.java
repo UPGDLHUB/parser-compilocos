@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.Objects;
 import java.util.Vector;
 
 /**
@@ -233,12 +234,9 @@ public class TheLexer {
                 if (dfa.isAcceptState(currentState)) {
                     String stateName = dfa.getAcceptStateName(currentState);
                     tokens.add(new TheToken(string, stateName));
-                    System.out.println(currentState);
-                }  else if (currentState.equals("S19")) {
-                tokens.add(new TheToken(string, "INTEGER"));
-            } else if (!string.isEmpty()) {
-                tokens.add(new TheToken(string, "ERROR"));
-            }
+                }  else if (inString || !Objects.equals(currentState, "S0")) {
+                    tokens.add(new TheToken(string, "ERROR"));
+                }
                 if (isOperator(currentChar)) {
                     tokens.add(new TheToken(currentChar + "", "OPERATOR"));
                 } else if (isDelimiter(currentChar)) {
