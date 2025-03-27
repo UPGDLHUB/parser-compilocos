@@ -178,6 +178,7 @@ public class TheLexer {
         dfa.addAcceptState("S17", "STRING");
         dfa.addAcceptState("S18", "OPERATOR");
         dfa.addAcceptState("S24", "CHAR");
+        dfa.addAcceptState("S19", "INTEGER");
 
     }
 

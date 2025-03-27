@@ -31,6 +31,24 @@ public class TheParser {
 	public void RULE_TYPES(){
 
 	}
+	public void RULE_PARAMS(){
+
+	}
+	public void RULE_ASSIGNMENT(){
+
+	}
+	public void RULE_VARIABLES(){
+
+	}
+	public void RULE_STATEMENT(){
+
+	}
+	public void RULE_RETURN(){
+
+	}
+	public void RULE_CALL(){
+
+	}
 
 
 	public void run() {
