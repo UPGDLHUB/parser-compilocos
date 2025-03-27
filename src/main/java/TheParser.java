@@ -28,7 +28,7 @@ public class TheParser {
 
 	}
 
-	public void RULE_GLOBAL_ATTRIBUTE(){
+	public void RULE_TYPES(){
 
 	}
 
