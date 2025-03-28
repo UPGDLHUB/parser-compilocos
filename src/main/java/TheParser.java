@@ -10,16 +10,6 @@ public class TheParser {
 		currentToken = 0;
 	}
 
-	/*public
-	methods
-	types
-	params
-	asignment
-	varibles
-	statetemst
-	return
-	call*/
-
 	public void RULE_GLOBAL_ATTRIBUTE(){
 
 	}
@@ -28,18 +18,53 @@ public class TheParser {
 
 	}
 
-	public void RULE_TYPES(){
-
+	public void RULE_TYPES() {
+		System.out.println("- RULE_TYPES");
+		String type = tokens.get(currentToken).getValue();
+		if (type.equals("INTEGER") || type.equals("FLOAT") ||
+				type.equals("BOOLEAN") || type.equals("CHAR") ||
+				type.equals("STRING") ) {
+			currentToken++;
+			System.out.println("- " + type);
+		} else {
+			error(8);
+		}
 	}
 	public void RULE_PARAMS(){
 
 	}
 	public void RULE_ASSIGNMENT(){
-
+		if (tokens.get(currentToken).getType().equals("IDENTIFIER"))
+		{
+			currentToken++;
+			if (tokens.get(currentToken).getValue().equals("=")) {
+				currentToken++;
+				RULE_EXPRESSION();
+			}
+		}else {
+			error(10);
+		}
 	}
-	public void RULE_VARIABLES(){
-
+	public void RULE_VARIABLE() {
+		RULE_TYPES();
+		if (tokens.get(currentToken).getType().equals("IDENTIFIER")) {
+			String variableName = tokens.get(currentToken).getValue();
+			currentToken++;
+			if (tokens.get(currentToken).getValue().equals("=")) {
+				currentToken++;
+				RULE_EXPRESSION();
+			}
+			if (tokens.get(currentToken).getValue().equals(";")) {
+				currentToken++;
+				System.out.println("Declared variable: " + variableName);
+			} else {
+				error(9);
+			}
+		} else {
+			error(10);
+		}
 	}
+
 	public void RULE_STATEMENT(){
 
 	}
