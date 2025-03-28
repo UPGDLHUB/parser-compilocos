@@ -11,16 +11,6 @@ public class TheParser {
 	}
 
 
-	/*public
-	methods
-	types
-	params
-	asignment
-	varibles
-	statetemst
-	return
-	call*/
-
 	public void RULE_GLOBAL_ATTRIBUTE(){
 
 	}
@@ -56,18 +46,57 @@ public class TheParser {
 		}
 	}
 
-	public void RULE_TYPES(){
 
+	public void RULE_TYPES() {
+		System.out.println("- RULE_TYPES");
+		String type = tokens.get(currentToken).getValue();
+		if (type.equals("INTEGER") || type.equals("FLOAT") ||
+				type.equals("BOOLEAN") || type.equals("CHAR") ||
+				type.equals("STRING") ) {
+			currentToken++;
+			System.out.println("- " + type);
+		} else {
+			error(8);
+		}
 	}
+  
 	public void RULE_PARAMS(){
 
 	}
+  
 	public void RULE_ASSIGNMENT(){
-
+		if (tokens.get(currentToken).getType().equals("IDENTIFIER"))
+		{
+			currentToken++;
+			if (tokens.get(currentToken).getValue().equals("=")) {
+				currentToken++;
+				RULE_EXPRESSION();
+			}
+		}else {
+			error(10);
+		}
 	}
-	public void RULE_VARIABLES(){
-
+  
+	public void RULE_VARIABLE() {
+		RULE_TYPES();
+		if (tokens.get(currentToken).getType().equals("IDENTIFIER")) {
+			String variableName = tokens.get(currentToken).getValue();
+			currentToken++;
+			if (tokens.get(currentToken).getValue().equals("=")) {
+				currentToken++;
+				RULE_EXPRESSION();
+			}
+			if (tokens.get(currentToken).getValue().equals(";")) {
+				currentToken++;
+				System.out.println("Declared variable: " + variableName);
+			} else {
+				error(9);
+			}
+		} else {
+			error(10);
+		}
 	}
+
 	public void RULE_STATEMENT(){
 
 	}
@@ -111,7 +140,9 @@ public class TheParser {
 			System.out.println("- }");
 		}
 	}
+  
 int flag = 0;
+  
 	public void RULE_BODY() {
 		System.out.println("-- RULE_BODY");
 		while (!tokens.get(currentToken).getValue().equals("}")) {
@@ -180,9 +211,9 @@ int flag = 0;
 		System.out.println("------ RULE_R");
 		RULE_E();
 		while (tokens.get(currentToken).getValue().equals("<")
-			| tokens.get(currentToken).getValue().equals(">")
-			| tokens.get(currentToken).getValue().equals("==")
-			| tokens.get(currentToken).getValue().equals("!=")
+				| tokens.get(currentToken).getValue().equals(">")
+				| tokens.get(currentToken).getValue().equals("==")
+				| tokens.get(currentToken).getValue().equals("!=")
 		) {
 			currentToken++;
 			System.out.println("------ relational operator");
@@ -194,7 +225,7 @@ int flag = 0;
 		System.out.println("------- RULE_E");
 		RULE_A();
 		while (tokens.get(currentToken).getValue().equals("-")
-			| tokens.get(currentToken).getValue().equals("+")
+				| tokens.get(currentToken).getValue().equals("+")
 		) {
 			currentToken++;
 			System.out.println("------- + or -");
@@ -207,7 +238,7 @@ int flag = 0;
 		System.out.println("-------- RULE_A");
 		RULE_B();
 		while (tokens.get(currentToken).getValue().equals("/")
-			| tokens.get(currentToken).getValue().equals("*")
+				| tokens.get(currentToken).getValue().equals("*")
 		) {
 			currentToken++;
 			System.out.println("-------- * or /");
@@ -250,7 +281,7 @@ int flag = 0;
 
 	private void error(int error) {
 		System.out.println("Error " + error +
-			" at line " + tokens.get(currentToken));
+				" at line " + tokens.get(currentToken));
 		System.exit(1);
 	}
 
