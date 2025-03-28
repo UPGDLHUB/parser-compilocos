@@ -107,6 +107,58 @@ public class TheParser {
 
 	}
 
+	public void RULE_IF(){
+		if (tokens.get(currentToken).getType().equals("IDENTIFIER")){
+			if (tokens.get(currentToken).getValue().equals("if")){
+				currentToken++;
+				if (tokens.get(currentToken).getValue().equals("(")) {
+					currentToken++;
+				} else {
+					error(1);
+				}
+				RULE_EXPRESSION();
+				if (tokens.get(currentToken).getValue().equals(")")) {
+					currentToken++;
+					System.out.println("- )");
+				} else {
+					error(2);
+				}
+
+				if (tokens.get(currentToken).getValue().equals("{")) {
+					currentToken++;
+				} else {
+					error(1);
+				}
+				RULE_BODY();
+				if (tokens.get(currentToken).getValue().equals("}")) {
+					currentToken++;
+					System.out.println("- }");
+				} else {
+					error(2);
+				}
+
+			}
+			if (tokens.get(currentToken).getValue().equals("else")) {
+				currentToken++;
+				if (tokens.get(currentToken).getValue().equals("{")) {
+					currentToken++;
+					System.out.println("- {");
+
+				} else {
+					error(1);
+				}
+				RULE_BODY();
+				if (tokens.get(currentToken).getValue().equals("}")) {
+					currentToken++;
+					System.out.println("- }");
+				} else {
+					error(2);
+				}
+			}
+
+			}
+	}
+
 
 	public void run() {
 		RULE_PROGRAM();
