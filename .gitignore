@@ -1,2 +1,20 @@
-*.iml
-*.xml
+# Compiled class files
+*.class
+
+# Build directories
+/bin/
+/out/
+/target/
+
+# Maven and Gradle caches
+/.mvn/
+/.m2/
+/.gradle/
+/build/
+
+# IntelliJ
+/.idea/
+/*.iml
+/modules.xml
+/.idea/workspace.xml
+/.idea/libraries/
