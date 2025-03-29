@@ -83,12 +83,20 @@ public class TheParser {
 	}
   
 	public void RULE_ASSIGNMENT(){
+		System.out.println("asignacion 2" + tokens.get(currentToken).getValue());
 		if (tokens.get(currentToken).getType().equals("IDENTIFIER"))
 		{
 			currentToken++;
 			if (tokens.get(currentToken).getValue().equals("=")) {
 				currentToken++;
 				RULE_EXPRESSION();
+				if (tokens.get(currentToken).getValue().equals(";")) {
+					currentToken++;
+				} else {
+					error(11);
+				}
+			} else {
+				error(10);
 			}
 		}else {
 			error(10);
@@ -117,10 +125,43 @@ public class TheParser {
 
 
 	public void RULE_RETURN(){
-
+		if (tokens.get(currentToken).getValue().equals("return")) {
+		currentToken++;
+		RULE_EXPRESSION();
+		}else{
+			error(19);
+		}
 	}
 	public void RULE_CALL(){
+		System.out.println("Call: " + tokens.get(currentToken).getValue() );
+		if (tokens.get(currentToken).getType().equals("IDENTIFIER")) {
+			currentToken++;
+			if (tokens.get(currentToken).getValue().equals("(")) {
+				currentToken++;
+				System.out.println("- (");
+				RULE_ARGUMENTS();
+				if (tokens.get(currentToken).getValue().equals(")")) {
+					currentToken++;
+					System.out.println("- )");
+				} else {
+					error(8);
+				}
+			} else {
+				error(7);
+			}
+		} else {
+			error(6);
+		}
+	}
 
+	public void RULE_ARGUMENTS() {
+		if (!tokens.get(currentToken).getValue().equals(")")) {
+			RULE_EXPRESSION();
+			while (tokens.get(currentToken).getValue().equals(",")) {
+				currentToken++;
+				RULE_EXPRESSION();
+			}
+		}
 	}
 	public void RULE_FOR(){
 
@@ -273,40 +314,52 @@ public class TheParser {
 
 	public void RULE_BODY() {
 		System.out.println("-- RULE_BODY");
-		while (!tokens.get(currentToken).getValue().equals("}")) {
-			if (tokens.get(currentToken).getType().equals("IDENTIFIER")) {
-				if(tokens.get(currentToken).getValue().equals("int")){ //Metodo para obtener todos los types
-					System.out.println("Variable");
-					RULE_VARIABLE();
-				}
-				else if(tokens.get(currentToken++).getValue().equals("=")){ //todo
-					System.out.println("Assignation");
-					RULE_ASSIGNMENT();
-				}
-				else if(tokens.get(currentToken).getValue().equals("if")){
-					System.out.println("IF");
-					RULE_IF();
-				}
-				else if(tokens.get(currentToken).getValue().equals("while")){
-					System.out.println("while");
-					RULE_WHILE();
-				}
 
-				else{
+		while (!tokens.get(currentToken).getValue().equals("}")) {
+			String tokenValue = tokens.get(currentToken).getValue();
+			String tokenType = tokens.get(currentToken).getType();
+
+			if (tokenValue.equals("int") || tokenValue.equals("float") ||
+					tokenValue.equals("boolean") || tokenValue.equals("char") ||
+					tokenValue.equals("string")) {
+				RULE_VARIABLE();
+			}
+			else if (tokenType.equals("IDENTIFIER")) {
+				String nextValue = tokens.get(currentToken + 1).getValue();
+
+				if (nextValue.equals("=")) {
+					RULE_ASSIGNMENT();
+				} else if (nextValue.equals("(")) {
+					RULE_CALL();
+				} else {
 					error(14);
 				}
-				RULE_METHODS();
 			}
-
+			else if (tokenValue.equals("if")) {
+				System.out.println("IF");
+				RULE_IF();
+			}
+			else if (tokenValue.equals("while")) {
+				System.out.println("WHILE");
+				RULE_WHILE();
+			}
+			else if(tokenValue.equals("return")){
+				System.out.println("RETURN");
+				RULE_RETURN();
+			}
+			else {
+				error(14);
+			}
 		}
 	}
+
 
 	public void RULE_EXPRESSION() {
 		System.out.println("--- RULE_EXPRESSION");
 		RULE_X();
-		while (tokens.get(currentToken).getValue().equals("|")) {
+		while (tokens.get(currentToken).getValue().equals("||")) {
 			currentToken++;
-			System.out.println("--- |");
+			System.out.println("--- ||");
 			RULE_X();
 		}
 	}
@@ -314,9 +367,9 @@ public class TheParser {
 	public void RULE_X() {
 		System.out.println("---- RULE_X");
 		RULE_Y();
-		while (tokens.get(currentToken).getValue().equals("&")) {
+		while (tokens.get(currentToken).getValue().equals("&&")) {
 			currentToken++;
-			System.out.println("---- |");
+			System.out.println("---- &&");
 			RULE_Y();
 		}
 	}
@@ -384,10 +437,44 @@ public class TheParser {
 		if (tokens.get(currentToken).getType().equals("IDENTIFIER")) {
 			currentToken++;
 			System.out.println("---------- IDENTIFIER");
+			if (tokens.get(currentToken).getValue().equals("(")) {
+				currentToken--;
+				System.out.println("---------- Function Call");
+				RULE_CALL();
+			}
 		} else if (tokens.get(currentToken).getType().equals("INTEGER")) {
 			currentToken++;
 			System.out.println("---------- INTEGER");
-		} else if (tokens.get(currentToken).getValue().equals("(")) {
+		}  else if (tokens.get(currentToken).getType().equals("FLOAT")) {
+			currentToken++;
+			System.out.println("---------- FLOAT");
+		} else if (tokens.get(currentToken).getType().equals("OCTAL")) {
+			currentToken++;
+			System.out.println("---------- OCTAL");
+		}  else if (tokens.get(currentToken).getType().equals("HEXADECIMAL")) {
+			currentToken++;
+			System.out.println("---------- HEXADECIMAL");
+		}  else if (tokens.get(currentToken).getType().equals("EXPONENTIAL")) {
+			currentToken++;
+			System.out.println("---------- EXPONENTIAL");
+		}  else if (tokens.get(currentToken).getType().equals("BINARY")) {
+			currentToken++;
+			System.out.println("---------- BINARY");
+		}
+		else if (tokens.get(currentToken).getType().equals("STRING")) {
+			currentToken++;
+			System.out.println("---------- STRING");
+		} else if (tokens.get(currentToken).getType().equals("CHAR")) {
+			currentToken++;
+			System.out.println("---------- CHAR");
+		}  else if (tokens.get(currentToken).getValue().equals("true")) {
+			currentToken++;
+			System.out.println("---------- true");
+		} else if (tokens.get(currentToken).getValue().equals("false")) {
+			currentToken++;
+			System.out.println("---------- false");
+		}
+		else if (tokens.get(currentToken).getValue().equals("(")) {
 			currentToken++;
 			System.out.println("---------- (");
 			RULE_EXPRESSION();
@@ -397,7 +484,8 @@ public class TheParser {
 			} else {
 				error(4);
 			}
-		} else {
+		}
+		else {
 			error(5);
 		}
 	}
