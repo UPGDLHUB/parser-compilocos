@@ -47,7 +47,6 @@ public class TheLexer {
         dfa.addTransition("S0", "0",  "S19");
 
         //OPERATOR
-        dfa.addTransition("S0", "=",  "S18");
         dfa.addTransition("S0", "+",  "S18");
         dfa.addTransition("S0", "-",  "S18");
         dfa.addTransition("S0", "*",  "S18");
@@ -55,6 +54,22 @@ public class TheLexer {
         dfa.addTransition("S0", "%",  "S18");
         dfa.addTransition("S0", "<",  "S18");
         dfa.addTransition("S0", ">",  "S18");
+        dfa.addTransition("S0", "!",  "S18");
+
+        // ==, <=, >=
+        dfa.addTransition("S0", "=",  "S27");
+        dfa.addTransition("S0", "<",  "S27");
+        dfa.addTransition("S0", ">",  "S27");
+
+        dfa.addTransition("S27", "=",  "S18");
+
+        //&& AND ||
+        dfa.addTransition("S0", "&",  "S18");
+        dfa.addTransition("S0", "|",  "S18");
+
+        dfa.addTransition("S25", "&",  "S18");
+        dfa.addTransition("S26", "|",  "S18");
+
 
         dfa.addTransition("S0", ".",  "S2");
 
@@ -177,6 +192,7 @@ public class TheLexer {
         dfa.addAcceptState("S16", "OCTAL");
         dfa.addAcceptState("S17", "STRING");
         dfa.addAcceptState("S18", "OPERATOR");
+        dfa.addAcceptState("S27", "OPERATOR");
         dfa.addAcceptState("S24", "CHAR");
         dfa.addAcceptState("S19", "INTEGER");
 
