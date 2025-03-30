@@ -6,11 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="460b227b-1a67-4d23-b924-3cb414d892cd" name="Changes" comment="Params developed and method complete">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/TheAutomata.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/TheAutomata.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/TheLexer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/TheLexer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/TheMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/TheMain.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/main/TheParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/TheParser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/TheToken.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/TheToken.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/TheLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/TheLexer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/TheParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/TheParser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/input.txt" afterDir="false" />
@@ -54,7 +50,6 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-
     &quot;git-widget-placeholder&quot;: &quot;Functions__development&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -62,6 +57,9 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -88,6 +86,7 @@
       <workItem from="1743213100316" duration="7839000" />
       <workItem from="1743222841148" duration="236000" />
       <workItem from="1743266316290" duration="11020000" />
+      <workItem from="1743291671248" duration="4754000" />
     </task>
     <task id="LOCAL-00001" summary="Params developed and method complete">
       <created>1743222943629</created>
