@@ -200,16 +200,22 @@ public class TheParser {
 					if(tokens.get(currentToken).getValue().equals("{")){
 						currentToken++;
 						System.out.println("- {");
-					}else{
-						error(1);
-					}
-					RULE_BODY();
-					if(tokens.get(currentToken).getValue().equals("}")){
+						while(!tokens.get(currentToken).getValue().equals("}")){
+							RULE_BODY();
+							currentToken++;
+						}
 						currentToken++;
 						System.out.println("- }");
 					}else{
-						error(2);
+						error(1);
 					}
+//					RULE_BODY();
+//					if(tokens.get(currentToken).getValue().equals("}")){
+//						currentToken++;
+//						System.out.println("- }");
+//					}else{
+//						error(2);
+//					}
 				}
 			} else{
 				error(7);
@@ -230,16 +236,24 @@ public class TheParser {
 		if (tokens.get(currentToken).getValue().equals("{")) {
 			System.out.println("-- {");
 			currentToken++;
-		} else {
-			error(1);
-		}
-		RULE_BODY();
-		if (tokens.get(currentToken).getValue().equals("}")) {
+			currentToken++;
+			System.out.println("- {");
+			while(!tokens.get(currentToken).getValue().equals("}")){
+				RULE_BODY();
+				currentToken++;
+			}
 			currentToken++;
 			System.out.println("- }");
 		} else {
-			error(2);
+			error(1);
 		}
+//		RULE_BODY();
+//		if (tokens.get(currentToken).getValue().equals("}")) {
+//			currentToken++;
+//			System.out.println("- }");
+//		} else {
+//			error(2);
+//		}
 		if (tokens.get(currentToken).getValue().equals("while")) {
 			System.out.println("-- while");
 			if (tokens.get(currentToken).getValue().equals("(")) {
@@ -339,16 +353,22 @@ public class TheParser {
 		if (tokens.get(currentToken).getValue().equals("{")) {
 			System.out.println("-- {");
 			currentToken++;
-		} else {
-			error(1);
-		}
-		RULE_BODY();
-		if (tokens.get(currentToken).getValue().equals("}")) {
+			while(!tokens.get(currentToken).getValue().equals("}")){
+				RULE_BODY();
+				currentToken++;
+			}
 			currentToken++;
 			System.out.println("- }");
 		} else {
-			error(2);
+			error(1);
 		}
+//		RULE_BODY();
+//		if (tokens.get(currentToken).getValue().equals("}")) {
+//			currentToken++;
+//			System.out.println("- }");
+//		} else {
+//			error(2);
+//		}
 	}
 
 	public void run() {
