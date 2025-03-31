@@ -31,7 +31,6 @@ class Student {
             }
             else {
                 w = 2;
-                if (1) else if (2) else method();
             }
         }
         return (a + b) * 2;

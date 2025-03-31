@@ -15,9 +15,6 @@ public class TheParser {
     //debuggear el flujo
     //Atributos globales -- Luisfel
 
-    public void RULE_GLOBAL_ATTRIBUTE() {
-
-    }
 
     public void RULE_METHODS() {
         System.out.println("-- RULE_METHODS");
@@ -65,6 +62,11 @@ public class TheParser {
             error(12);
         }
     }
+	public void RULE_GLOBAL_ATTRIBUTE(){
+		System.out.println("-- RULE_GLOBAL_ATTRIBUTE");
+		RULE_VARIABLE();
+	}
+
 
 
     public void RULE_PARAMS() {
@@ -99,8 +101,6 @@ public class TheParser {
                 if (tokens.get(currentToken).getValue().equals(";")) {
                     System.out.println("-- ;");
                     currentToken++;
-                } else {
-                    error(11);
                 }
             } else {
                 error(10);
@@ -200,9 +200,15 @@ public class TheParser {
             currentToken++;
             RULE_EXPRESSION();
             if (tokens.get(currentToken).getValue().equals(";")) {
-                System.out.println("- ;");
                 currentToken++;
-                RULE_EXPRESSION();
+                System.out.println("- ;");
+                String nextValue = tokens.get(currentToken + 1).getValue();
+                if (nextValue.equals("=")) {
+                    RULE_ASSIGNMENT();
+                }
+                else{
+                    RULE_EXPRESSION();
+                }
                 if (tokens.get(currentToken).getValue().equals(")")) {
                     currentToken++;
                     System.out.println("- )");
@@ -211,20 +217,16 @@ public class TheParser {
                         System.out.println("- {");
                         while (!tokens.get(currentToken).getValue().equals("}")) {
                             RULE_BODY();
-                            currentToken++;
                         }
-                        currentToken++;
-                        System.out.println("- }");
+                        if (tokens.get(currentToken).getValue().equals("}")) {
+                            currentToken++;
+                            System.out.println("- }");
+                        } else {
+                            error(2);
+                        }
                     } else {
                         error(1);
                     }
-//					RULE_BODY();
-//					if(tokens.get(currentToken).getValue().equals("}")){
-//						currentToken++;
-//						System.out.println("- }");
-//					}else{
-//						error(2);
-//					}
                 }
             } else {
                 error(7);
@@ -232,19 +234,20 @@ public class TheParser {
         } else {
             error(1);
         }
-
     }
-
     public void RULE_SWITCH() {
         System.out.println("-- RULE_SWITCH");
         currentToken++;
+
         if (tokens.get(currentToken).getValue().equals("(")) {
-            System.out.println("-- {");
+            System.out.println("-- (");
             currentToken++;
         } else {
             error(6);
         }
+
         RULE_EXPRESSION();
+
         if (tokens.get(currentToken).getValue().equals(")")) {
             System.out.println("-- )");
             currentToken++;
@@ -252,8 +255,93 @@ public class TheParser {
             error(1);
         }
         if (tokens.get(currentToken).getValue().equals("{")) {
+            System.out.println("-- {");
+            currentToken++;
+        } else {
+            error(2);
         }
+
+        while (!tokens.get(currentToken).getValue().equals("}")) {
+            if (tokens.get(currentToken).getValue().equals("case")) {
+                System.out.println("-- case");
+                currentToken++;
+                if (tokens.get(currentToken).getValue().contains(":")) {
+                    String caseExpression = tokens.get(currentToken).getValue();
+                    String caseValue = caseExpression.split(":")[0];
+                    String colon = ":";
+                    tokens.remove(currentToken);
+                    tokens.add(currentToken, new TheToken(caseValue, "IDENTIFIER"));
+                    tokens.add(currentToken + 1, new TheToken(colon, "OPERATOR"));
+
+                    System.out.println("-- case expression " + caseValue + " and colon detected");
+                }
+
+                RULE_EXPRESSION();
+
+                if (tokens.get(currentToken).getValue().equals(":")) {
+                    System.out.println("-- :");
+                    currentToken++;
+                } else {
+                    error(17);
+                }
+                while (!tokens.get(currentToken).getValue().equals("case") &&
+                        !tokens.get(currentToken).getValue().equals("default") &&
+                        !tokens.get(currentToken).getValue().equals("}")) {
+                    if (tokens.get(currentToken).getValue().equals("break") || tokens.get(currentToken).getValue().equals("break;")) {
+                        System.out.println("-- break");
+                        currentToken++;
+                        if (tokens.get(currentToken).getValue().equals(";")) {
+                            System.out.println("-- ;");
+                            currentToken++;
+                        } else {
+                            error(18);
+                        }
+                        break;
+                    }
+
+                    RULE_BODY();
+                }
+            }
+            else if (tokens.get(currentToken).getValue().equals("default")) {
+                System.out.println("-- default");
+                currentToken++;
+
+                // Process the default expression
+                RULE_EXPRESSION();
+
+                if (tokens.get(currentToken).getValue().equals(":")) {
+                    System.out.println("-- :");
+                    currentToken++;
+                } else {
+                    error(17); // Error if no colon after default
+                }
+
+                // Process the body of the default block
+                while (!tokens.get(currentToken).getValue().equals("}")) {
+                    if (tokens.get(currentToken).getValue().equals("break") || tokens.get(currentToken).getValue().equals("break;")) {
+                        System.out.println("-- break");
+                        currentToken++; // Skip the 'break' token
+
+                        if (tokens.get(currentToken).getValue().equals(";")) {
+                            System.out.println("-- ;");
+                            currentToken++; // Skip the semicolon
+                        } else {
+                            error(18); // Error if no semicolon after break
+                        }
+                        break; // Exit the default block
+                    }
+
+                    RULE_BODY();
+                }
+            } else {
+                error(19); // Error for unexpected tokens
+            }
+        }
+
+        System.out.println("-- }");
+        currentToken++;
     }
+
 
 
     public void RULE_DOWHILE() {
@@ -402,34 +490,56 @@ public class TheParser {
         RULE_PROGRAM();
     }
 
-    private void RULE_PROGRAM() {
-        System.out.println("- RULE_PROGRAM");
-        if (tokens.get(currentToken).getValue().equals("class")) {
-            currentToken++;
-            System.out.println("- class");
-        } else {
-            error(1);
-        }
-        if (tokens.get(currentToken).getType().equals("IDENTIFIER")) {
-            currentToken++;
-            System.out.println("- IDENTIFIER");
-        } else {
-            error(2);
-        }
-        if (tokens.get(currentToken).getValue().equals("{")) {
-            currentToken++;
-            System.out.println("- {");
-        } else {
-            error(3);
-        }
-        while (!tokens.get(currentToken).getValue().equals("}")) {
-            RULE_METHODS();
-        }
-        if (tokens.get(currentToken).getValue().equals("}")) {
-            currentToken++;
-            System.out.println("- }");
-        }
-    }
+	private void RULE_PROGRAM() {
+		System.out.println("- RULE_PROGRAM");
+		if (tokens.get(currentToken).getValue().equals("class")) {
+			currentToken++;
+			System.out.println("- class");
+		} else {
+			error(1);
+		}
+		if (tokens.get(currentToken).getType().equals("IDENTIFIER")) {
+			currentToken++;
+			System.out.println("- IDENTIFIER");
+		} else {
+			error(2);
+		}
+		if (tokens.get(currentToken).getValue().equals("{")) {
+			currentToken++;
+			System.out.println("- {");
+		} else {
+			error(3);
+		}
+		while (!tokens.get(currentToken).getValue().equals("}")) {
+			String tokenValue = tokens.get(currentToken).getValue();
+			if (tokenValue.equals("int") || tokenValue.equals("float") ||
+					tokenValue.equals("boolean") || tokenValue.equals("char") ||
+					tokenValue.equals("string") || tokenValue.equals("void")) {
+				int savedPosition = currentToken;
+
+				RULE_TYPES();
+
+				if (tokens.get(currentToken).getType().equals("IDENTIFIER")) {
+					currentToken++;
+					if (tokens.get(currentToken).getValue().equals("(")) {
+						currentToken = savedPosition;
+						RULE_METHODS();
+					} else {
+						currentToken = savedPosition;
+						RULE_GLOBAL_ATTRIBUTE();
+					}
+				} else {
+					error(10); // Identifier expected
+				}
+			} else {
+				error(13); // Type declaration expected
+			}
+		}
+		if (tokens.get(currentToken).getValue().equals("}")) {
+			currentToken++;
+			System.out.println("- }");
+		}
+	}
 
     public void RULE_BODY() {
         System.out.println("-- RULE_BODY");
