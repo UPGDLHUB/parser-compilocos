@@ -265,6 +265,7 @@ public class TheParser {
             if (tokens.get(currentToken).getValue().equals("case")) {
                 System.out.println("-- case");
                 currentToken++;
+
                 if (tokens.get(currentToken).getValue().contains(":")) {
                     String caseExpression = tokens.get(currentToken).getValue();
                     String caseValue = caseExpression.split(":")[0];
@@ -284,57 +285,72 @@ public class TheParser {
                 } else {
                     error(17);
                 }
+
                 while (!tokens.get(currentToken).getValue().equals("case") &&
                         !tokens.get(currentToken).getValue().equals("default") &&
                         !tokens.get(currentToken).getValue().equals("}")) {
-                    if (tokens.get(currentToken).getValue().equals("break") || tokens.get(currentToken).getValue().equals("break;")) {
+                    if (tokens.get(currentToken).getValue().equals("break")) {
                         System.out.println("-- break");
                         currentToken++;
-                        if (tokens.get(currentToken).getValue().equals(";")) {
+
+                        if (currentToken < tokens.size() && tokens.get(currentToken).getValue().equals(";")) {
                             System.out.println("-- ;");
                             currentToken++;
                         } else {
-                            error(18);
+                            error(18); // Missing semicolon
                         }
-                        break;
-                    }
+                        break; // Exit case block
+                    } else if (tokens.get(currentToken).getValue().equals("break;")) {
+                        System.out.println("-- break;");
+                        currentToken++;
+                        break; // Exit case block
+                    }else{
+                        RULE_BODY();
 
-                    RULE_BODY();
+                    }
                 }
             }
-            else if (tokens.get(currentToken).getValue().equals("default")) {
-                System.out.println("-- default");
-                currentToken++;
+            else if (tokens.get(currentToken).getValue().equals("default") || tokens.get(currentToken).getValue().equals("default:")) {
+                if (tokens.get(currentToken).getValue().contains(":")) {
+                    String caseExpression = tokens.get(currentToken).getValue();
+                    String caseValue = caseExpression.split(":")[0];
+                    String colon = ":";
+                    tokens.remove(currentToken);
+                    tokens.add(currentToken, new TheToken(caseValue, "IDENTIFIER"));
+                    tokens.add(currentToken + 1, new TheToken(colon, "OPERATOR"));
 
-                // Process the default expression
+                    System.out.println("-- case expression " + caseValue + " and colon detected");
+                }
                 RULE_EXPRESSION();
 
                 if (tokens.get(currentToken).getValue().equals(":")) {
                     System.out.println("-- :");
                     currentToken++;
                 } else {
-                    error(17); // Error if no colon after default
+                    error(17);
                 }
 
-                // Process the body of the default block
                 while (!tokens.get(currentToken).getValue().equals("}")) {
-                    if (tokens.get(currentToken).getValue().equals("break") || tokens.get(currentToken).getValue().equals("break;")) {
+                    if (tokens.get(currentToken).getValue().equals("break")) {
                         System.out.println("-- break");
-                        currentToken++; // Skip the 'break' token
+                        currentToken++;
 
-                        if (tokens.get(currentToken).getValue().equals(";")) {
+                        if (currentToken < tokens.size() && tokens.get(currentToken).getValue().equals(";")) {
                             System.out.println("-- ;");
-                            currentToken++; // Skip the semicolon
+                            currentToken++;
                         } else {
-                            error(18); // Error if no semicolon after break
+                            error(18);
                         }
-                        break; // Exit the default block
+                        break; // Exit default block
+                    } else if (tokens.get(currentToken).getValue().equals("break;")) {
+                        System.out.println("-- break;");
+                        currentToken++;
+                        break; // Exit default block
                     }
-
                     RULE_BODY();
                 }
             } else {
-                error(19); // Error for unexpected tokens
+                error(19);
             }
         }
 
@@ -517,8 +533,6 @@ public class TheParser {
 					tokenValue.equals("string") || tokenValue.equals("void")) {
 				int savedPosition = currentToken;
 
-				RULE_TYPES();
-
 				if (tokens.get(currentToken).getType().equals("IDENTIFIER")) {
 					currentToken++;
 					if (tokens.get(currentToken).getValue().equals("(")) {
@@ -529,10 +543,8 @@ public class TheParser {
 						RULE_GLOBAL_ATTRIBUTE();
 					}
 				} else {
-					error(10); // Identifier expected
+					error(10);
 				}
-			} else {
-				error(13); // Type declaration expected
 			}
 		}
 		if (tokens.get(currentToken).getValue().equals("}")) {
@@ -543,7 +555,7 @@ public class TheParser {
 
     public void RULE_BODY() {
         System.out.println("-- RULE_BODY");
-        while (!tokens.get(currentToken).getValue().equals("}")) {
+        while (!tokens.get(currentToken).getValue().equals("}")  ) {
             String tokenValue = tokens.get(currentToken).getValue();
             String tokenType = tokens.get(currentToken).getType();
 
@@ -565,8 +577,8 @@ public class TheParser {
                     System.out.println("-- FOR");
                     RULE_FOR();
                 } else if (tokenValue.equals("switch")) {
-                    System.out.println("-- SWITCH");
-                    RULE_SWITCH();
+                        System.out.println("-- SWITCH");
+                        RULE_SWITCH();
                 } else if (tokenValue.equals("return")) {
                     RULE_RETURN();
                 } else if (tokenValue.equals("do")) {
@@ -576,7 +588,7 @@ public class TheParser {
                     System.out.println("-- (");
                     RULE_CALL();
                 } else {
-                    error(14);
+                    break;
                 }
             } else {
                 error(14);
