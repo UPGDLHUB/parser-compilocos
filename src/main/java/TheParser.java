@@ -12,7 +12,8 @@ public class TheParser {
 
 
 	public void RULE_GLOBAL_ATTRIBUTE(){
-
+		System.out.println("-- RULE_GLOBAL_ATTRIBUTE");
+		RULE_VARIABLE();
 	}
 
 	public void RULE_METHODS(){
@@ -227,7 +228,7 @@ public class TheParser {
 	}
 
 	public void RULE_SWITCH(){
-
+		//TODO
 	}
 
 	public void RULE_DOWHILE() {
@@ -396,7 +397,29 @@ public class TheParser {
 			error(3);
 		}
 		while (!tokens.get(currentToken).getValue().equals("}")) {
-			RULE_METHODS();
+			String tokenValue = tokens.get(currentToken).getValue();
+			if (tokenValue.equals("int") || tokenValue.equals("float") ||
+					tokenValue.equals("boolean") || tokenValue.equals("char") ||
+					tokenValue.equals("string") || tokenValue.equals("void")) {
+				int savedPosition = currentToken;
+
+				RULE_TYPES();
+
+				if (tokens.get(currentToken).getType().equals("IDENTIFIER")) {
+					currentToken++;
+					if (tokens.get(currentToken).getValue().equals("(")) {
+						currentToken = savedPosition;
+						RULE_METHODS();
+					} else {
+						currentToken = savedPosition;
+						RULE_GLOBAL_ATTRIBUTE();
+					}
+				} else {
+					error(10); // Identifier expected
+				}
+			} else {
+				error(13); // Type declaration expected
+			}
 		}
 		if (tokens.get(currentToken).getValue().equals("}")) {
 			currentToken++;
