@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.Vector;
 
 public class TheParser {
@@ -48,7 +49,6 @@ public class TheParser {
 		}
 	}
 
-
 	public void RULE_TYPES() {
 		System.out.println("-- RULE_TYPES");
 		String type = tokens.get(currentToken).getValue();
@@ -61,7 +61,6 @@ public class TheParser {
 			error(12);
 		}
 	}
-  
 
 	public void RULE_PARAMS(){
 		System.out.println("-- RULE_PARAMS");
@@ -131,7 +130,6 @@ public class TheParser {
 		}
 	}
 
-
 	public void RULE_RETURN(){
 		System.out.println("-- RULE_RETURN");
 		if (tokens.get(currentToken).getValue().equals("return")) {
@@ -149,6 +147,7 @@ public class TheParser {
 			error(19);
 		}
 	}
+
 	public void RULE_CALL(){
 		System.out.println("-- RULE_CALL");
 		if (tokens.get(currentToken).getType().equals("IDENTIFIER")) {
@@ -183,6 +182,7 @@ public class TheParser {
 			}
 		}
 	}
+
 	public void RULE_FOR(){
 		System.out.println("-- RULE_FOR");
 		currentToken++;
@@ -207,7 +207,7 @@ public class TheParser {
 						currentToken++;
 						System.out.println("- }");
 					}else{
-						error(1);
+						error(19);
 					}
 //					RULE_BODY();
 //					if(tokens.get(currentToken).getValue().equals("}")){
@@ -221,7 +221,7 @@ public class TheParser {
 				error(7);
 			}
 		} else {
-			error(1);
+			error(100);
 		}
 
 	}
@@ -245,7 +245,7 @@ public class TheParser {
 			currentToken++;
 			System.out.println("- }");
 		} else {
-			error(1);
+			error(31);
 		}
 //		RULE_BODY();
 //		if (tokens.get(currentToken).getValue().equals("}")) {
@@ -260,7 +260,7 @@ public class TheParser {
 				System.out.println("-- (");
 				currentToken++;
 			} else {
-				error(1);
+				error(31);
 			}
 			RULE_EXPRESSION();
 			if (tokens.get(currentToken).getValue().equals(")")) {
@@ -278,8 +278,6 @@ public class TheParser {
 		}
 	}
 
-
-
 	public void RULE_IF(){
 		System.out.println("-- RULE_IF");
 		currentToken++;
@@ -287,50 +285,52 @@ public class TheParser {
 		if (tokens.get(currentToken).getValue().equals("(")) {
 			System.out.println("-- (");
 			currentToken++;
-		} else {
-			error(1);
-		}
-		RULE_EXPRESSION();
-		if (tokens.get(currentToken).getValue().equals(")")) {
-			currentToken++;
-			System.out.println("- )");
-		} else {
-			error(2);
-		}
-
-		if (tokens.get(currentToken).getValue().equals("{")) {
-			System.out.println("-- {");
-			currentToken++;
-		} else {
-			error(1);
-		}
-		RULE_BODY();
-		if (tokens.get(currentToken).getValue().equals("}")) {
-			currentToken++;
-			System.out.println("- }");
-		} else {
-			error(2);
-		}
-
-
-		if (tokens.get(currentToken).getValue().equals("else")) {
-			System.out.println("-- else");
-			currentToken++;
-			if (tokens.get(currentToken).getValue().equals("{")) {
+			RULE_EXPRESSION();
+			if (tokens.get(currentToken).getValue().equals(")")) {
 				currentToken++;
-				System.out.println("- {");
-
-			} else {
-				error(1);
-			}
-			RULE_BODY();
-			if (tokens.get(currentToken).getValue().equals("}")) {
-				currentToken++;
-				System.out.println("- }");
+				System.out.println("- )");
 			} else {
 				error(2);
 			}
 		}
+		if (tokens.get(currentToken).getValue().equals("{")) {
+			System.out.println("-- {");
+			currentToken++;
+			RULE_BODY();
+			if (tokens.get(currentToken).getValue().equals("}")) {
+				currentToken++;
+				System.out.println("-- }");
+			} else {
+				error(2);
+			}
+		}
+		if (tokens.get(currentToken).getValue().equals("else")) {
+			currentToken++;
+			if (tokens.get(currentToken).getValue().equals("if")) {
+				System.out.println("-- ELSE_IF");
+				RULE_IF();
+			}
+			else if (tokens.get(currentToken).getValue().equals("{")) {
+				System.out.println("-- {");
+				currentToken++;
+				RULE_BODY();
+				if (tokens.get(currentToken).getValue().equals("}")) {
+					currentToken++;
+					System.out.println("- }");
+				} else {
+					error(2);
+				}
+			}
+			else if (tokens.get(currentToken).getType().equals("IDENTIFIER")) {
+				System.out.println("-- IDENTIFIER");
+				currentToken++;
+			}
+		} else {
+			error(25);
+		}
+
+
+
 	}
 
 	public void RULE_WHILE(){
@@ -340,7 +340,7 @@ public class TheParser {
 			System.out.println("-- (");
 			currentToken++;
 		} else {
-			error(1);
+			error(21);
 		}
 		RULE_EXPRESSION();
 		if (tokens.get(currentToken).getValue().equals(")")) {
@@ -360,7 +360,7 @@ public class TheParser {
 			currentToken++;
 			System.out.println("- }");
 		} else {
-			error(1);
+			error(47);
 		}
 //		RULE_BODY();
 //		if (tokens.get(currentToken).getValue().equals("}")) {
@@ -380,9 +380,10 @@ public class TheParser {
 		if (tokens.get(currentToken).getValue().equals("class")) {
 			currentToken++;
 			System.out.println("- class");
-		} else {
-			error(1);
 		}
+		//else {
+		//	error(37);
+		//}
 		if (tokens.get(currentToken).getType().equals("IDENTIFIER")) {
 			currentToken++;
 			System.out.println("- IDENTIFIER");
@@ -456,7 +457,6 @@ public class TheParser {
 			}
 		}
 	}
-
 
 	public void RULE_EXPRESSION() {
 		System.out.println("--- RULE_EXPRESSION");
