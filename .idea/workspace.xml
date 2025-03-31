@@ -9,7 +9,6 @@
       <change beforePath="$PROJECT_DIR$/out/production/main/TheParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/TheParser.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/TheLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/TheLexer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/TheParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/TheParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/input.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,6 +86,9 @@
       <workItem from="1743222841148" duration="236000" />
       <workItem from="1743266316290" duration="11020000" />
       <workItem from="1743291671248" duration="4754000" />
+      <workItem from="1743355223247" duration="616000" />
+      <workItem from="1743376851359" duration="4323000" />
+      <workItem from="1743381432662" duration="1369000" />
     </task>
     <task id="LOCAL-00001" summary="Params developed and method complete">
       <created>1743222943629</created>
