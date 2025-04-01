@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="460b227b-1a67-4d23-b924-3cb414d892cd" name="Changes" comment="Params developed and method complete">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/TheMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/TheMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/TheParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/TheParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/TheToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/TheToken.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/input.txt" afterDir="false" />
-    </list>
+    <list default="true" id="460b227b-1a67-4d23-b924-3cb414d892cd" name="Changes" comment="Params developed and method complete" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -92,7 +86,7 @@
       <workItem from="1743381432662" duration="9088000" />
       <workItem from="1743459017731" duration="5698000" />
       <workItem from="1743470348334" duration="2528000" />
-      <workItem from="1743480487157" duration="5088000" />
+      <workItem from="1743480487157" duration="5435000" />
     </task>
     <task id="LOCAL-00001" summary="Params developed and method complete">
       <created>1743222943629</created>
