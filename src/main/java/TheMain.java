@@ -6,6 +6,9 @@ import java.util.Vector;
  * Main class to run the lexer
  *
  * @author javiergs
+ * @author OrganistaF
+ * @author DJ2513
+ * @author GabrielGuerra06
  * @version 1.0
  */
 public class TheMain {

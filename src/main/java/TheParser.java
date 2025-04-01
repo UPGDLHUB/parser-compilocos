@@ -1,3 +1,13 @@
+/**
+ * A Token is a pair of a value (string or word) and its type
+ *
+ * @author javiergs
+ * @author OrganistaF
+ * @author DJ2513
+ * @author GabrielGuerra06
+ * @version 1.0
+ */
+
 import java.util.Vector;
 
 public class TheParser {
@@ -290,13 +300,13 @@ public class TheParser {
                             System.out.println("-- ;");
                             currentToken++;
                         } else {
-                            error(18); // Missing semicolon
+                            error(18);
                         }
-                        break; // Exit case block
+                        break;
                     } else if (tokens.get(currentToken).getValue().equals("break;")) {
                         System.out.println("-- break;");
                         currentToken++;
-                        break; // Exit case block
+                        break;
                     }else{
                         RULE_BODY();
 
@@ -334,11 +344,11 @@ public class TheParser {
                         } else {
                             error(18);
                         }
-                        break; // Exit default block
+                        break;
                     } else if (tokens.get(currentToken).getValue().equals("break;")) {
                         System.out.println("-- break;");
                         currentToken++;
-                        break; // Exit default block
+                        break;
                     }
                     RULE_BODY();
                 }
@@ -368,13 +378,6 @@ public class TheParser {
         } else {
             error(1);
         }
-//		RULE_BODY();
-//		if (tokens.get(currentToken).getValue().equals("}")) {
-//			currentToken++;
-//			System.out.println("- }");
-//		} else {
-//			error(2);
-//		}
         if (tokens.get(currentToken).getValue().equals("while")) {
             System.out.println("-- while");
             if (tokens.get(currentToken).getValue().equals("(")) {
@@ -490,13 +493,6 @@ public class TheParser {
         } else {
             error(1);
         }
-//		RULE_BODY();
-//		if (tokens.get(currentToken).getValue().equals("}")) {
-//			currentToken++;
-//			System.out.println("- }");
-//		} else {
-//			error(2);
-//		}
     }
 
     public void run() {
