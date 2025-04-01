@@ -47,7 +47,6 @@ public class TheLexer {
         dfa.addTransition("S0", "0",  "S19");
 
         //OPERATOR
-        dfa.addTransition("S0", "=",  "S18");
         dfa.addTransition("S0", "+",  "S18");
         dfa.addTransition("S0", "-",  "S18");
         dfa.addTransition("S0", "*",  "S18");
@@ -55,6 +54,15 @@ public class TheLexer {
         dfa.addTransition("S0", "%",  "S18");
         dfa.addTransition("S0", "<",  "S18");
         dfa.addTransition("S0", ">",  "S18");
+        dfa.addTransition("S0", "!",  "S18");
+        dfa.addTransition("S0", "=",  "S18");
+        dfa.addTransition("S0", "&",  "S18");
+        dfa.addTransition("S0", "|",  "S18");
+
+        dfa.addTransition("S18", "=",  "S25");
+        dfa.addTransition("S18", "&",  "S26");
+        dfa.addTransition("S18", "|",  "S27");
+
 
         dfa.addTransition("S0", ".",  "S2");
 
@@ -179,6 +187,9 @@ public class TheLexer {
         dfa.addAcceptState("S18", "OPERATOR");
         dfa.addAcceptState("S24", "CHAR");
         dfa.addAcceptState("S19", "INTEGER");
+        dfa.addAcceptState("S25", "OPERATOR");
+        dfa.addAcceptState("S26", "OPERATOR");
+        dfa.addAcceptState("S27", "OPERATOR");
 
     }
 
@@ -226,7 +237,23 @@ public class TheLexer {
                     string = "" + currentChar;
                 }
 
-            } else if (!(isOperator(currentChar) || isDelimiter(currentChar) || isSpace(currentChar))) {
+            }   else if (isOperator(currentChar)) {
+                if (index + 1 < line.length()) {
+                    char nextChar = line.charAt(index + 1);
+                    String combinedOp = "" + currentChar + nextChar;
+
+                    if (isMultiCharOperator(combinedOp)) {
+                        tokens.add(new TheToken(combinedOp, "OPERATOR"));
+                        index++;
+                    } else {
+                        tokens.add(new TheToken(currentChar + "", "OPERATOR"));
+                    }
+                } else {
+                    tokens.add(new TheToken(currentChar + "", "OPERATOR"));
+                }
+
+            }
+            else if (!(isOperator(currentChar) || isDelimiter(currentChar) || isSpace(currentChar))) {
                 nextState = dfa.getNextState(currentState, currentChar);
                 string += currentChar;
                 currentState = nextState;
@@ -267,7 +294,13 @@ public class TheLexer {
     }
 
     private boolean isOperator(char c) {
-        return c == '=' || c == '+' || c == '-' || c == '*' || c == '/';
+        return c == '=' || c == '+' || c == '-' || c == '*' || c == '/' || c == '%' || c == '<' || c == '>' || c == '!' || c == '&' || c == '|';
+    }
+
+    private boolean isMultiCharOperator(String op) {
+        return op.equals("==") || op.equals("!=") || op.equals("<=") || op.equals(">=") ||
+                op.equals("&&") || op.equals("||") || op.equals("+=") || op.equals("-=") ||
+                op.equals("++") || op.equals("--");
     }
 
     public void printTokens() {
