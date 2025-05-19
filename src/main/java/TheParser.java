@@ -8,8 +8,9 @@
  * @version 1.0
  */
 
+import java.util.HashMap;
 import java.util.Vector;
-
+import java.util.*;
 public class TheParser {
 
     private Vector<TheToken> tokens;
@@ -65,10 +66,10 @@ public class TheParser {
             error(12);
         }
     }
-	public void RULE_GLOBAL_ATTRIBUTE(){
-		System.out.println("-- RULE_GLOBAL_ATTRIBUTE");
-		RULE_VARIABLE();
-	}
+    public void RULE_GLOBAL_ATTRIBUTE(){
+        System.out.println("-- RULE_GLOBAL_ATTRIBUTE");
+        RULE_VARIABLE();
+    }
 
 
 
@@ -499,56 +500,64 @@ public class TheParser {
         RULE_PROGRAM();
     }
 
-	private void RULE_PROGRAM() {
-		System.out.println("- RULE_PROGRAM");
-		if (tokens.get(currentToken).getValue().equals("class")) {
-			currentToken++;
-			System.out.println("- class");
-		} else {
-			error(1);
-		}
-		if (tokens.get(currentToken).getType().equals("IDENTIFIER")) {
-			currentToken++;
-			System.out.println("- IDENTIFIER");
-		} else {
-			error(2);
-		}
-		if (tokens.get(currentToken).getValue().equals("{")) {
-			currentToken++;
-			System.out.println("- {");
-		} else {
-			error(3);
-		}
-		while (!tokens.get(currentToken).getValue().equals("}")) {
-			String tokenValue = tokens.get(currentToken).getValue();
-			if (tokenValue.equals("int") || tokenValue.equals("float") ||
-					tokenValue.equals("boolean") || tokenValue.equals("char") ||
-					tokenValue.equals("string") || tokenValue.equals("void")) {
-				int savedPosition = currentToken;
+    private void RULE_PROGRAM() {
+        System.out.println("- RULE_PROGRAM");
 
-				RULE_TYPES();
+        if (!FirstsSet.program().contains(tokens.get(currentToken).getValue())) {
+            error(1);
+            return;
+        }
+        if (tokens.get(currentToken).getValue().equals("class")) {
+            currentToken++;
+            System.out.println("- class");
+        } else {
+            error(1);
+            return;
+        }
+        if (tokens.get(currentToken).getType().equals("IDENTIFIER")) {
+            currentToken++;
+            System.out.println("- IDENTIFIER");
+        } else {
+            error(2);
+            return;
+        }
+        if (tokens.get(currentToken).getValue().equals("{")) {
+            currentToken++;
+            System.out.println("- {");
+        } else {
+            error(3);
+            return;
+        }
+        while (!tokens.get(currentToken).getValue().equals("}")) {
+            String tokenValue = tokens.get(currentToken).getValue();
+            if (tokenValue.equals("int") || tokenValue.equals("float") ||
+                    tokenValue.equals("boolean") || tokenValue.equals("char") ||
+                    tokenValue.equals("string") || tokenValue.equals("void")) {
+                int savedPosition = currentToken;
 
-				if (tokens.get(currentToken).getType().equals("IDENTIFIER")) {
-					currentToken++;
-					if (tokens.get(currentToken).getValue().equals("(")) {
-						currentToken = savedPosition;
-						RULE_METHODS();
-					} else {
-						currentToken = savedPosition;
-						RULE_GLOBAL_ATTRIBUTE();
-					}
-				} else {
-					error(10);
-				}
-			} else {
-				error(13);
-			}
-		}
-		if (tokens.get(currentToken).getValue().equals("}")) {
-			currentToken++;
-			System.out.println("- }");
-		}
-	}
+                RULE_TYPES();
+
+                if (tokens.get(currentToken).getType().equals("IDENTIFIER")) {
+                    currentToken++;
+                    if (tokens.get(currentToken).getValue().equals("(")) {
+                        currentToken = savedPosition;
+                        RULE_METHODS();
+                    } else {
+                        currentToken = savedPosition;
+                        RULE_GLOBAL_ATTRIBUTE();
+                    }
+                } else {
+                    error(10);
+                }
+            } else {
+                error(13);
+            }
+        }
+        if (tokens.get(currentToken).getValue().equals("}")) {
+            currentToken++;
+            System.out.println("- }");
+        }
+    }
 
     public void RULE_BODY() {
         System.out.println("-- RULE_BODY");
@@ -574,8 +583,8 @@ public class TheParser {
                     System.out.println("-- FOR");
                     RULE_FOR();
                 } else if (tokenValue.equals("switch")) {
-                        System.out.println("-- SWITCH");
-                        RULE_SWITCH();
+                    System.out.println("-- SWITCH");
+                    RULE_SWITCH();
                 } else if (tokenValue.equals("return")) {
                     RULE_RETURN();
                 } else if (tokenValue.equals("do")) {
@@ -734,8 +743,13 @@ public class TheParser {
     private void error(int error) {
         System.out.println("Error " + error +
                 " at line " + tokens.get(currentToken));
-        System.exit(1);
-    }
+
+        String currentRule = Thread.currentThread().getStackTrace()[2].getMethodName();
+        Set<String> followSet = FollowsSet.FOLLOW_MAP.get(currentRule);
+
+        while (currentToken < tokens.size() && !followSet.contains(tokens.get(currentToken).getValue())) {
+            currentToken++;
+        }    }
 
 }
 
