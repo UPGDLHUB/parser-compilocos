@@ -22,18 +22,24 @@ public class TheParser {
     }
     public void RULE_METHODS() {
         System.out.println("-- RULE_METHODS");
+        if (!FirstsSet.methods().contains(tokens.get(currentToken).getValue())) {
+            error(6);
+            return;
+        }
         RULE_TYPES();
         if (tokens.get(currentToken).getType().equals("IDENTIFIER")) {
             currentToken++;
             System.out.println("- IDENTIFIER");
         } else {
             error(6);
+            return;
         }
         if (tokens.get(currentToken).getValue().equals("(")) {
             currentToken++;
             System.out.println("- (");
         } else {
             error(7);
+            return;
         }
         RULE_PARAMS();
         if (tokens.get(currentToken).getValue().equals(")")) {
@@ -41,6 +47,7 @@ public class TheParser {
             System.out.println("- )");
         } else {
             error(8);
+            return;
         }
         if (tokens.get(currentToken).getValue().equals("{")) {
             currentToken++;
@@ -50,12 +57,19 @@ public class TheParser {
                 currentToken++;
                 System.out.println("- }");
             }
+            else{
+                error(2);
+            }
         }
     }
 
 
     public void RULE_TYPES() {
         System.out.println("-- RULE_TYPES");
+        if (!FirstsSet.types().contains(tokens.get(currentToken).getValue())) {
+            error(12);
+        }
+
         String type = tokens.get(currentToken).getValue();
         if (type.equals("int") || type.equals("float") ||
                 type.equals("boolean") || type.equals("char") ||
@@ -75,6 +89,9 @@ public class TheParser {
 
     public void RULE_PARAMS() {
         System.out.println("-- RULE_PARAMS");
+        if (!FirstsSet.params().contains(tokens.get(currentToken).getValue())) {
+            error(12);
+        }
         while (!tokens.get(currentToken).getValue().equals(")")) {
             RULE_TYPES();
             if (tokens.get(currentToken).getType().equals("IDENTIFIER")) {
@@ -95,6 +112,9 @@ public class TheParser {
 
     public void RULE_ASSIGNMENT() {
         System.out.println("--RULE_ASSIGNMENT");
+        if (!FirstsSet.assignment().contains(tokens.get(currentToken).getValue())) {
+            error(12);
+        }
         if (tokens.get(currentToken).getType().equals("IDENTIFIER")) {
             System.out.println("--IDENTIFIER");
             currentToken++;
@@ -116,6 +136,9 @@ public class TheParser {
 
     public void RULE_VARIABLE() {
         System.out.println("--RULE_VARIABLE");
+        if (!FirstsSet.variable().contains(tokens.get(currentToken).getValue())) {
+            error(12);
+        }
         RULE_TYPES();
         if (tokens.get(currentToken).getType().equals("IDENTIFIER")) {
             System.out.println("--IDENTIFIER");
@@ -144,6 +167,9 @@ public class TheParser {
 
     public void RULE_RETURN() {
         System.out.println("-- RULE_RETURN");
+        if (!FirstsSet._return().contains(tokens.get(currentToken).getValue())) {
+            error(12);
+        }
         if (tokens.get(currentToken).getValue().equals("return")) {
             currentToken++;
             if (!tokens.get(currentToken).getValue().equals(";")) {
@@ -162,6 +188,9 @@ public class TheParser {
 
     public void RULE_CALL() {
         System.out.println("-- RULE_CALL");
+        if (!FirstsSet.call().contains(tokens.get(currentToken).getValue())) {
+            error(12);
+        }
         if (tokens.get(currentToken).getType().equals("IDENTIFIER")) {
             System.out.println("-- IDENTIFIER");
             currentToken++;
@@ -185,6 +214,9 @@ public class TheParser {
 
     public void RULE_ARGUMENTS() {
         System.out.println("-- RULE_ARGUMENTS");
+        if (!FirstsSet.arguments().contains(tokens.get(currentToken).getValue())) {
+            error(12);
+        }
         if (!tokens.get(currentToken).getValue().equals(")")) {
             System.out.println("-- )");
             RULE_EXPRESSION();
@@ -197,6 +229,9 @@ public class TheParser {
 
     public void RULE_FOR() {
         System.out.println("-- RULE_FOR");
+        if (!FirstsSet._for().contains(tokens.get(currentToken).getValue())) {
+            error(12);
+        }
         currentToken++;
         if (tokens.get(currentToken).getValue().equals("(")) {
             System.out.println("- (");
@@ -241,6 +276,9 @@ public class TheParser {
     }
     public void RULE_SWITCH() {
         System.out.println("-- RULE_SWITCH");
+        if (!FirstsSet._switch().contains(tokens.get(currentToken).getValue())) {
+            error(12);
+        }
         currentToken++;
 
         if (tokens.get(currentToken).getValue().equals("(")) {
@@ -366,6 +404,9 @@ public class TheParser {
 
     public void RULE_DOWHILE() {
         System.out.println("-- RULE_DO_WHILE");
+        if (!FirstsSet.doWhile().contains(tokens.get(currentToken).getValue())) {
+            error(12);
+        }
         currentToken++;
         if (tokens.get(currentToken).getValue().equals("{")) {
             System.out.println("-- {");
@@ -406,6 +447,9 @@ public class TheParser {
 
     public void RULE_IF(){
         System.out.println("-- RULE_IF");
+        if (!FirstsSet._if().contains(tokens.get(currentToken).getValue())) {
+            error(12);
+        }
         currentToken++;
         System.out.println("Actual token: " + tokens.get(currentToken).getValue());
         if (tokens.get(currentToken).getValue().equals("(")) {
@@ -463,6 +507,10 @@ public class TheParser {
 
     public void RULE_WHILE() {
         System.out.println("-- RULE_WHILE");
+        if (!FirstsSet._while().contains(tokens.get(currentToken).getValue())) {
+            error(12);
+
+        }
         currentToken++;
         if (tokens.get(currentToken).getValue().equals("(")) {
             System.out.println("-- (");
@@ -561,6 +609,9 @@ public class TheParser {
 
     public void RULE_BODY() {
         System.out.println("-- RULE_BODY");
+        if (!FirstsSet.body().contains(tokens.get(currentToken).getValue())) {
+            error(12);
+        }
         while (!tokens.get(currentToken).getValue().equals("}")  ) {
             String tokenValue = tokens.get(currentToken).getValue();
             String tokenType = tokens.get(currentToken).getType();
@@ -609,6 +660,9 @@ public class TheParser {
 
     public void RULE_EXPRESSION() {
         System.out.println("--- RULE_EXPRESSION");
+        if (!FirstsSet.expression().contains(tokens.get(currentToken).getValue())) {
+            error(12);
+        }
         RULE_X();
         while (tokens.get(currentToken).getValue().equals("||")) {
             currentToken++;
@@ -619,6 +673,9 @@ public class TheParser {
 
     public void RULE_X() {
         System.out.println("---- RULE_X");
+        if (!FirstsSet.x().contains(tokens.get(currentToken).getValue())) {
+            error(12);
+        }
         RULE_Y();
         while (tokens.get(currentToken).getValue().equals("&&")) {
             currentToken++;
@@ -629,6 +686,9 @@ public class TheParser {
 
     public void RULE_Y() {
         System.out.println("----- RULE_Y");
+        if (!FirstsSet.y().contains(tokens.get(currentToken).getValue())) {
+            error(12);
+        }
         while (tokens.get(currentToken).getValue().equals("!")) {
             currentToken++;
             System.out.println("----- !");
@@ -638,6 +698,10 @@ public class TheParser {
 
     public void RULE_R() {
         System.out.println("------ RULE_R");
+        if (!FirstsSet.R().contains(tokens.get(currentToken).getValue())) {
+            error(12);
+            return;
+        }
         RULE_E();
         while (tokens.get(currentToken).getValue().equals("<")
                 | tokens.get(currentToken).getValue().equals(">")
@@ -652,6 +716,10 @@ public class TheParser {
 
     public void RULE_E() {
         System.out.println("------- RULE_E");
+        if (!FirstsSet.E().contains(tokens.get(currentToken).getValue())) {
+            error(12);
+            return;
+        }
         RULE_A();
         while (tokens.get(currentToken).getValue().equals("-")
                 | tokens.get(currentToken).getValue().equals("+")
@@ -665,6 +733,10 @@ public class TheParser {
 
     public void RULE_A() {
         System.out.println("-------- RULE_A");
+        if (!FirstsSet.A().contains(tokens.get(currentToken).getValue())) {
+            error(12);
+            return;
+        }
         RULE_B();
         while (tokens.get(currentToken).getValue().equals("/")
                 | tokens.get(currentToken).getValue().equals("*")
@@ -678,6 +750,10 @@ public class TheParser {
 
     public void RULE_B() {
         System.out.println("--------- RULE_B");
+        if (!FirstsSet.B().contains(tokens.get(currentToken).getValue())) {
+            error(12);
+            return;
+        }
         if (tokens.get(currentToken).getValue().equals("-")) {
             currentToken++;
             System.out.println("--------- -");
@@ -687,6 +763,10 @@ public class TheParser {
 
     public void RULE_C() {
         System.out.println("---------- RULE_C");
+        if (!FirstsSet.C().contains(tokens.get(currentToken).getValue())) {
+            error(12);
+            return;
+        }
         if (tokens.get(currentToken).getType().equals("IDENTIFIER")) {
             currentToken++;
             System.out.println("---------- IDENTIFIER");
@@ -744,8 +824,13 @@ public class TheParser {
         System.out.println("Error " + error +
                 " at line " + tokens.get(currentToken));
 
-        String currentRule = Thread.currentThread().getStackTrace()[2].getMethodName();
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        String currentRule = stackTrace[2].getMethodName();
+
         Set<String> followSet = FollowsSet.FOLLOW_MAP.get(currentRule);
+        if (followSet == null) {
+            followSet = new HashSet<>(Arrays.asList(";", "}", ")", "$"));
+        }
 
         while (currentToken < tokens.size() && !followSet.contains(tokens.get(currentToken).getValue())) {
             currentToken++;
