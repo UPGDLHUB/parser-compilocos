@@ -4,11 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="460b227b-1a67-4d23-b924-3cb414d892cd" name="Changes" comment="Params developed and method complete" />
+    <list default="true" id="460b227b-1a67-4d23-b924-3cb414d892cd" name="Changes" comment="Params developed and method complete">
+      <change afterPath="$PROJECT_DIR$/src/main/java/FirstsSet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/FollowsSet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/main/TheMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/TheMain.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/main/TheParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/TheParser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/main/TheToken.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/TheToken.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/TheParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/TheParser.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -86,7 +101,14 @@
       <workItem from="1743381432662" duration="9088000" />
       <workItem from="1743459017731" duration="5698000" />
       <workItem from="1743470348334" duration="2528000" />
-      <workItem from="1743480487157" duration="5435000" />
+      <workItem from="1743480487157" duration="5898000" />
+      <workItem from="1744336452481" duration="1835000" />
+      <workItem from="1746715498793" duration="1659000" />
+      <workItem from="1746757088433" duration="302000" />
+      <workItem from="1747174377881" duration="2288000" />
+      <workItem from="1747182379997" duration="829000" />
+      <workItem from="1747329930278" duration="885000" />
+      <workItem from="1747610502212" duration="2553000" />
     </task>
     <task id="LOCAL-00001" summary="Params developed and method complete">
       <created>1743222943629</created>
@@ -100,6 +122,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Params developed and method complete" />
