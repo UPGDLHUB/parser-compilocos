@@ -38,7 +38,7 @@ public class FollowsSet {
     }
 
     public static Set<String> program() {
-        return Set.of("$");
+        return Set.of("$", "}");
     }
 
     public static Set<String> methods() {
@@ -54,15 +54,15 @@ public class FollowsSet {
     }
 
     public static Set<String> params() {
-        return Set.of(")");
+        return Set.of(")", ",");
     }
 
     public static Set<String> assignment() {
-        return Set.of(";", ")");
+        return Set.of(";", ")", ",", ":");
     }
 
     public static Set<String> variable() {
-        return Set.of(";", ")");
+        return Set.of(";", ")", ",", ":");
     }
 
     public static Set<String> _return() {
@@ -101,6 +101,9 @@ public class FollowsSet {
         Set<String> set = new HashSet<>();
         set.addAll(FirstsSet.body());
         set.add("}");
+        set.add("case");
+        set.add("default");
+        set.add("else");
         return set;
     }
 

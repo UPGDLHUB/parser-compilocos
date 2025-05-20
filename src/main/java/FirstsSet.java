@@ -52,7 +52,9 @@ public class FirstsSet {
     }
 
     public static Set<String> params() {
-        return types();
+        Set<String> set = new HashSet<>(types());
+        set.add(")");
+        return set;
     }
 
     public static Set<String> assignment() {
@@ -106,6 +108,7 @@ public class FirstsSet {
         set.add("switch");
         set.add("do");
         set.add(";");
+        set.add("DELIMITER");
         return set;
     }
 
@@ -155,7 +158,8 @@ public class FirstsSet {
         set.add("CHAR");
         set.add("true");
         set.add("false");
-        set.add("(");
+        set.add("DELIMITER");
+        set.add("OPERATOR");
         return set;
     }
 }
