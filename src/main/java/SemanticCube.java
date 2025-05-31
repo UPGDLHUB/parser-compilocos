@@ -31,10 +31,6 @@ public class SemanticCube {
 
     public static final int TYPE_ERROR = -1;
 
-    // --------------------------------------------------------------------
-    // 4. El arreglo tridimensional: cube[operador][tipoIzq][tipoDer]
-    //    contendrá el tipo resultante o TYPE_ERROR.
-    // --------------------------------------------------------------------
     private static final int[][][] cube = new int[NUM_OPS][NUM_TYPES][NUM_TYPES];
 
     static {
