@@ -111,11 +111,16 @@ public class TheParser {
     }
 
     public void RULE_ASSIGNMENT() {
+
         System.out.println("--RULE_ASSIGNMENT");
         if (!FirstsSet.assignment().contains(tokens.get(currentToken).getType())) {
             error(12);
         }
         if (tokens.get(currentToken).getType().equals("IDENTIFIER")) {
+            String variableId = tokens.get(currentToken).getValue();
+            if (!SemanticAnalizer.CheckVariableUsage(variableId)) {
+                // Variable not declared - semantic error already reported
+            }
             System.out.println("--IDENTIFIER");
             currentToken++;
             if (tokens.get(currentToken).getValue().equals("=")) {
@@ -139,8 +144,13 @@ public class TheParser {
         if (!FirstsSet.variable().contains(tokens.get(currentToken).getValue())) {
             error(12);
         }
+        String variableType = tokens.get(currentToken).getValue();
         RULE_TYPES();
         if (tokens.get(currentToken).getType().equals("IDENTIFIER")) {
+
+            String variableId = tokens.get(currentToken).getValue();
+            SemanticAnalizer.CheckVariable(variableType, variableId);
+
             System.out.println("--IDENTIFIER");
             currentToken++;
             if (tokens.get(currentToken).getValue().equals("=")) {
@@ -545,6 +555,7 @@ public class TheParser {
     }
 
     public void run() {
+        SemanticAnalizer.initialize();
         RULE_PROGRAM();
     }
 
