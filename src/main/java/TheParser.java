@@ -661,7 +661,6 @@ public class TheParser {
     public void RULE_EXPRESSION() {
         System.out.println("--- RULE_EXPRESSION");
         if (!FirstsSet.expression().contains(tokens.get(currentToken).getType()))  {
-            System.out.println("Valor: " + tokens.get(currentToken).getType());
             error(12);
         }
         RULE_X();
