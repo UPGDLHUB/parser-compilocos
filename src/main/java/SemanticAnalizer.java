@@ -86,6 +86,57 @@ public class SemanticAnalizer {
         }
     }
 
+    public static boolean CheckAssignment(String variableId, String valueType) {
+        SymbolTableItem variable = findVariableInScope(variableId);
+        if (variable == null) {
+            System.err.println("Semantic Error: Variable '" + variableId + "' is not declared");
+            return false;
+        }
+
+        String variableType = variable.getType();
+        int varTypeInt = stringTypeToInt(variableType);
+        int valTypeInt = stringTypeToInt(valueType);
+
+        if (varTypeInt == -1 || valTypeInt == -1) {
+            System.err.println("Semantic Error: Unknown type in assignment");
+            return false;
+        }
+
+        int resultType = SemanticCube.getResultType(SemanticCube.OP_ASSIGN, varTypeInt, valTypeInt);
+
+        if (resultType == SemanticCube.TYPE_ERROR) {
+            System.err.println("Semantic Error: Cannot assign " + valueType + " to variable '" +
+                    variableId + "' of type " + variableType);
+            return false;
+        }
+
+        System.out.println("Assignment valid: " + valueType + " to " + variableType);
+        return true;
+    }
+
+    private static int stringTypeToInt(String type) {
+        return switch (type.toLowerCase()) {
+            case "int" -> SemanticCube.INTEGER;
+            case "float" -> SemanticCube.FLOAT;
+            case "char" -> SemanticCube.CHAR;
+            case "string" -> SemanticCube.STRING;
+            case "boolean" -> SemanticCube.BOOLEAN;
+            case "void" -> SemanticCube.VOID;
+            default -> -1;
+        };
+    }
+    private static String intTypeToString(int type) {
+        return switch (type) {
+            case SemanticCube.INTEGER -> "int";
+            case SemanticCube.FLOAT -> "float";
+            case SemanticCube.CHAR -> "char";
+            case SemanticCube.STRING -> "string";
+            case SemanticCube.BOOLEAN -> "boolean";
+            case SemanticCube.VOID -> "void";
+            default -> "unknown";
+        };
+    }
+
     public static boolean CheckTypeCompatibility(String leftType, String rightType) {
         if (leftType.equals(rightType)) {
             return true;
